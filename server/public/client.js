@@ -19,14 +19,12 @@ function sendToServer(event){
         url: '/formulate',
         data: equation
     }).then(function(response){
-        console.log(response);
 
          $.ajax({
         method: 'GET',
         url: '/formulate'
     }).then(function(response){
-        console.log(response);
-        $('#result').text(response.result);
+        getHistory();
     })
 
     })
@@ -34,8 +32,18 @@ function sendToServer(event){
    
 }
 
-function history(){
-    
+function getHistory(){
+    $.ajax({
+        method: 'GET',
+        url: '/history'
+    }).then(function(response){
+        $('#history').empty();
+        for(let entry of response){
+            $('#result').text(entry.answer);
+            $('#history').append(`<li>${entry.num1} ${entry.operator} ${entry.num2} = ${entry.answer}</li>`)
+        }
+       
+    })
 }
 
 function add(event){
@@ -48,7 +56,8 @@ function add(event){
     equation = {
         num1: num1,
         num2: num2,
-        operator: plus
+        operator: plus,
+        answer: ''
     };
 
 }
@@ -63,7 +72,8 @@ function subtract(event){
     equation = {
         num1: num1,
         num2: num2,
-        operator: minus
+        operator: minus,
+        answer: ''
     };
 
 }
@@ -78,7 +88,8 @@ function multiply(event){
     equation = {
         num1: num1,
         num2: num2,
-        operator: times
+        operator: times,
+        answer: ''
     };
 
 }
@@ -93,7 +104,8 @@ function divide(event){
     equation = {
         num1: num1,
         num2: num2,
-        operator: divide
+        operator: divide,
+        answer: ''
     };
 
 }
