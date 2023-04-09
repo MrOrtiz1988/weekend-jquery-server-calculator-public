@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 let history = [];
 
+//calculate is the only function that does the calculation and adds the answer to the history array
 function calculate(){
     let lastOfHistory = history[history.length - 1];
     if(lastOfHistory.operator === '+'){
