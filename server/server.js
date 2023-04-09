@@ -34,8 +34,5 @@ app.post('/formulate', (req, res) => {
     res.sendStatus(201);
 })
 
-app.get('/history', (req, res) => {
-      res.send(history);
-  })
 
 app.listen(5000, () => {console.log('Server Running on port 5000')});

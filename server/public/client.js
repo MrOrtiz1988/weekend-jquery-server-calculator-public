@@ -7,11 +7,19 @@ function onReady(){
     $('#times').on('click', multiply);
     $('#divide').on('click', divide);
     $('#equals').on('click', sendToServer);
+    $('#reset').on('click', clear);
 }
 
 let equation;
 
+function clear(event){
+    event.preventDefault();
+    $('#num1').val('');
+    $('#num2').val('');
+}
+
 function sendToServer(event){
+    
     event.preventDefault();
 
     $.ajax({
@@ -24,26 +32,19 @@ function sendToServer(event){
         method: 'GET',
         url: '/formulate'
     }).then(function(response){
-        getHistory();
+
+        $('#history').empty();
+        for(let entry of response){
+            $('#result').text(entry.answer);
+            $('#history').append(`
+            <li>${entry.num1} ${entry.operator} ${entry.num2} = ${entry.answer}</li>
+            `)
+        }
     })
 
     })
 
    
-}
-
-function getHistory(){
-    $.ajax({
-        method: 'GET',
-        url: '/history'
-    }).then(function(response){
-        $('#history').empty();
-        for(let entry of response){
-            $('#result').text(entry.answer);
-            $('#history').append(`<li>${entry.num1} ${entry.operator} ${entry.num2} = ${entry.answer}</li>`)
-        }
-       
-    })
 }
 
 function add(event){
